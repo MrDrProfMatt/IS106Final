@@ -2,13 +2,13 @@
   <mat-card class="orders-grid">
     <div class="name-input-container">
       <span class="input-label">Order For:</span>
-      <input type="text" class="form-control" placeholder="Last name, First name">
+      <input [(ngModel)]="name" type="text" class="form-control" placeholder="Last name, First name">
     </div>
     <mat-toolbar class="action-bar" color="accent">
       <div class="align-right">
-        <button mat-raised-button>Add Hot Dog</button>
-        <button mat-raised-button>Add Hamberger</button>
-        <button mat-raised-button>Add Pizza</button>
+        <button mat-raised-button (click)= "additem('hot dog')">Add Hot Dog</button>
+        <button mat-raised-button (click)= "additem('hamberger')">Add Hamberger</button>
+        <button mat-raised-button (click)= "additem('pizza')">Add Pizza</button>
       </div>
     </mat-toolbar>
     <div class="table-grid">
@@ -27,31 +27,31 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor= "let order of orders; let i = index">
             <td><img class="item-image" [src]="order.image" alt="img"></td>
-            <td><input type="text" class="form-control" placeholder="PID"></td>
-            <td><input type="text" class="form-control" placeholder="Description"></td>
-            <td><input type="text" class="form-control" placeholder="Price"></td>
-            <td><input type="text" class="form-control" placeholder="Quantity"></td>
-            <td><button mat-raised-button color="primary" color="accent"><mat-icon>delete</mat-icon></button></td>
+            <td><input type="text" class="form-control" [(ngModel)] = "order.pid" placeholder="PID"></td>
+            <td><input type="text" class="form-control" [(ngModel)] = "order.description" placeholder="Description"></td>
+            <td><input type="text" class="form-control" [(ngModel)] = "order.price" placeholder="Price"></td>
+            <td><input type="text" class="form-control" [(ngModel)] = "order.quantity" placeholder="Quantity"></td>
+            <td><button (click) = "delete(i)"mat-raised-button color="primary" color="accent"><mat-icon>delete</mat-icon></button></td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="action-container">
-      <button mat-raised-button color="primary">Load Saved Items</button>
-      <button mat-raised-button color="primary">Clear</button>
-      <button mat-raised-button color="primary">Submit</button>
+      <button mat-raised-button color="primary" (click)="loadDefaultOrders()">Load Saved Items</button>
+      <button mat-raised-button color="primary" (click)="clear()">Clear</button>
+      <button mat-raised-button color="primary" (click)="submit()">Submit</button>
     </div>
   </mat-card>
 </div>
 <!-- the error modal -->
 <app-flex-modal #flex1
-  [transition]="'slide-in-right'"  
+  [transition]="'slide-in-right'"
   [modalStyle]="{'border':'5px solid #CCC'}"
-  [showToolbar]="true" 
-  [showDefaultAction]="false" 
-  [modalID]="'error-modal'" 
+  [showToolbar]="true"
+  [showDefaultAction]="false"
+  [modalID]="'error-modal'"
   [width]="'615px'"
   [height]="'auto'">
   <span class="modal-title">Warning</span>
@@ -64,11 +64,11 @@
 </app-flex-modal>
 <!-- the order success modal -->
 <app-flex-modal #flex2
-  [transition]="'slide-in-right'"  
+  [transition]="'slide-in-right'"
   [modalStyle]="{'border':'5px solid #CCC'}"
-  [showToolbar]="true" 
-  [showDefaultAction]="false" 
-  [modalID]="'confirm-modal'" 
+  [showToolbar]="true"
+  [showDefaultAction]="false"
+  [modalID]="'confirm-modal'"
   [width]="'615px'"
   [height]="'auto'">
   <span class="modal-title">Order Confirmation</span>
